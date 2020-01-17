@@ -71,7 +71,10 @@ public class Operations
      */
     int getNibble(int num, int which)
     {
-        return 0;
+        return (num>> ((which <<2) + 3)+1-4) & ~(~0 << 4);
+    }
+    public static void main(String[] args) {
+//        System.out.println(getNibble(0x56781234,5));
     }
 
     /**
