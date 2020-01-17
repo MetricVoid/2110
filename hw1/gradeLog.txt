@@ -1,0 +1,26 @@
+Bases.java: 
+	decimalStringToInt: 5.0/5.0
+	binaryStringToInt: 0.0/5.0
+		[fail] Failed test case for method binaryStringToInt. Arguments [111011]; Expected return value: 59; Actual: 0
+		[fail] Failed test case for method binaryStringToInt. Arguments [11001]; Expected return value: 25; Actual: 0
+		[fail] Failed test case for method binaryStringToInt. Arguments [1111111111111111111111111111110]; Expected return value: 2147483646; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	hexStringToInt: 0.0/5.0
+		(-5.0) Violations:
+			Multiplication
+	intToOctalString: 0.0/5.0
+		[fail] Failed test case for method intToOctalString. Arguments [304357]; Expected return value: 1122345; Actual: Empty string
+		[fail] Failed test case for method intToOctalString. Arguments [181764]; Expected return value: 543004; Actual: Empty string
+		[fail] Failed test case for method intToOctalString. Arguments [0]; Expected return value: 0; Actual: Empty string
+		[fail] Failed test case for method intToOctalString. Arguments [302]; Expected return value: 456; Actual: Empty string
+		(-0.0) Violations:
+			Method not implemented
+	binaryStringToHexString: 0.0/5.0
+		[fail] Failed test case for method binaryStringToHexString. Arguments [01111111111111101111111111111111]; Expected return value: 7FFEFFFF; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000000000000000000000]; Expected return value: 00000000; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000000000000011000010]; Expected return value: 000000C2; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000010000111100111011]; Expected return value: 00010F3B; Actual: Empty string
+		(-0.0) Violations:
+			Method not implemented
+Final Grade: 5.0/25.0
