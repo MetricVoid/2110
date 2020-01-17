@@ -39,9 +39,17 @@ public class Bases
      *
      * Example: binaryStringToInt("111"); // => 7
      */
+    public static void main(String[] args) {
+        System.out.print(binaryStringToHexString("1011"));
+    }
     public static int binaryStringToInt(String binary)
     {
-        return 0;
+        int result = 0;
+        for (int i = 0; i< binary.length(); i++) {
+            int ch = binary.charAt(i) - '0';
+            result = (result << 1) + ch;
+        }
+        return result;
     }
 
     /**
@@ -55,13 +63,10 @@ public class Bases
      */
     public static int decimalStringToInt(String decimal)
     {
-        int multi = 1;
         int result = 0;
-        for (int i = decimal.length() - 1; i >= 0; i--) {
-            char ch = decimal.charAt(i);
-            int digit = ch - '0';
-            result += digit * multi;
-            multi *= 10;
+        for (int i = 0; i< decimal.length(); i++) {
+            int ch = decimal.charAt(i) - '0';
+            result = result * 10 + ch;
         }
         return result;
 
@@ -77,18 +82,16 @@ public class Bases
      */
     public static int hexStringToInt(String hex)
     {
-        int pow = 0;
         int result = 0;
-        int digit = 0;
-        for (int i = 0; i < hex.length(); i--) {
+        for (int i = 0; i< hex.length(); i++) {
+            int digit;
             char ch = hex.charAt(i);
             if (ch - '9' <= 0) {
                 digit = ch - '0';
             } else {
                 digit = ch - 'A' + 10;
             }
-            result = digit + result << 4;
-
+            result = (result << 4) + digit;
         }
         return result;
     }
@@ -105,7 +108,14 @@ public class Bases
      */
     public static String intToOctalString(int octal)
     {
-        return "";
+        String result = "";
+        int reminder;
+        while (octal != 0) {
+            reminder = octal - ((octal >> 3)<<3);
+            octal = octal >> 3;
+            result = (char) (reminder+'0') + result;
+        }
+        return (result == ""?"0":result);
     }
 
     /**
@@ -123,6 +133,22 @@ public class Bases
      */
     public static String binaryStringToHexString(String binary)
     {
-        return "";
+        int digit;
+        char ch;
+        String result = "";
+        for (int i = 0; i< binary.length(); i += 4){
+            digit = 0;
+            digit = ((binary.charAt(i)-'0') << 3) +
+                ((binary.charAt(i+1)-'0') << 2) +
+                ((binary.charAt(i+2)-'0') << 1) +
+                ((binary.charAt(i+3)-'0') << 0);
+            if (digit > 9) {
+                ch = (char)(digit - 10 +'A');
+            } else {
+                ch = (char) (digit+'0');
+            }
+            result += ch;
+        }
+        return result;
     }
 }

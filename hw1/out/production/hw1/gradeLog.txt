@@ -1,0 +1,10 @@
+Bases.java: 
+	decimalStringToInt: 5.0/5.0
+	binaryStringToInt: 5.0/5.0
+	hexStringToInt: 5.0/5.0
+	intToOctalString: 5.0/5.0
+	binaryStringToHexString: 0.0/5.0
+		(-5.0) Violations:
+			Nested loops
+			Multiplication
+Final Grade: 20.0/25.0
