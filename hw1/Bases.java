@@ -2,7 +2,7 @@
  * CS 2110 Spring 2020 HW1
  * Part 2 - Coding with bases
  *
- * @author YOUR NAME HERE
+ * @author Zhaoran Ma
  *
  * Global rules for this file:
  * - You may not use more than 2 conditionals per method. Conditionals are

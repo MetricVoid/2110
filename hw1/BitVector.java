@@ -95,7 +95,7 @@ public class BitVector
      */
     public boolean isClear(int index)
     {
-        return (bits == (bits | ~(0x1 << index)) || index >= 32);
+        return (bits == (bits & ~(0x1 << index)) || index >= 32);
     }
 
     /**
@@ -105,9 +105,10 @@ public class BitVector
     public int onesCount()
     {
         int counter = 0;
-        while (bits > 0) {
-            if ((bits<<1)
+        for (int i = 0; i < 32; i++) {
+            counter += (bits >> i & 1);
         }
+        return counter;
     }
 
     /**
@@ -116,7 +117,11 @@ public class BitVector
      */
     public int zerosCount()
     {
-        return 0;
+        int counter = 0;
+        for (int i = 0; i < 32; i++) {
+            counter += (~bits >> i & 1);
+        }
+        return counter;
     }
 
     /**
@@ -126,6 +131,16 @@ public class BitVector
      */
     public int size()
     {
-        return 0;
+        int counter = 0;
+        if (bits<0) {
+            return 32;
+        } else if (bits == 0){
+            return 1;
+        }
+        while (bits > 0) {
+            counter ++;
+            bits = bits >> 1;
+        }
+        return counter;
     }
 }
