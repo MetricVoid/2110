@@ -86,6 +86,7 @@ void parseExpression(char *expression, int index)
             char temp2[len+1];
             my_strncpy(temp2, expression + start, len);
             temp2[len] = 0;
+            printf("%s",temp2);
             if (flag == 1) {
                 sum = sum + hexStringToInt(temp2);
             } else {
