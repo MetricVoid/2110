@@ -1,7 +1,7 @@
 /*
  * Exported with nin10kit v1.8
- * Invocation command was nin10kit --mode=3 --resize=50x37 garbage pusheen.png 
- * Time-stamp: Monday 03/23/2020, 15:03:39
+ * Invocation command was nin10kit --mode=3 --resize=50x37 pusheen pusheen.png 
+ * Time-stamp: Monday 03/23/2020, 15:03:57
  * 
  * Image Information
  * -----------------
@@ -10,7 +10,7 @@
  * All bug reports / feature requests are to be filed here https://github.com/TricksterGuy/nin10kit/issues
  */
 
-#include "garbage.h"
+#include "pusheen.h"
 
 const unsigned short pusheen[1850] =
 {
