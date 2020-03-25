@@ -1,11 +1,11 @@
 /*
- * Exported with nin10kit v1.8
- * Invocation command was nin10kit --mode=3 --resize=50x37 pusheen pusheen.png 
- * Time-stamp: Monday 03/23/2020, 15:03:57
+ * Exported with nin10kit v1.7
+ * Invocation command was nin10kit --mode=3 --resize=30x30 pusheen pusheen.png 
+ * Time-stamp: Wednesday 03/25/2020, 03:29:01
  * 
  * Image Information
  * -----------------
- * pusheen.png 50@37
+ * pusheen.png 30@30
  * 
  * All bug reports / feature requests are to be filed here https://github.com/TricksterGuy/nin10kit/issues
  */
@@ -13,11 +13,11 @@
 #ifndef PUSHEEN_H
 #define PUSHEEN_H
 
-extern const unsigned short pusheen[1850];
-#define PUSHEEN_SIZE 3700
-#define PUSHEEN_LENGTH 1850
-#define PUSHEEN_WIDTH 50
-#define PUSHEEN_HEIGHT 37
+extern const unsigned short pusheen[900];
+#define PUSHEEN_SIZE 1800
+#define PUSHEEN_LENGTH 900
+#define PUSHEEN_WIDTH 30
+#define PUSHEEN_HEIGHT 30
 
 #endif
 

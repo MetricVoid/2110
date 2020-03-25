@@ -52,6 +52,15 @@ void drawFullScreenImageDMA(const u16 *image) {
   DMA[3].dst = videoBuffer;
   DMA[3].cnt = (SCREEN_HEIGHT * SCREEN_WIDTH) | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT | DMA_ON;
 }
+void drawFullScreenImagePortionDMA(int x, int y, int width, int height, const u16 *image)
+{
+    for (int row = 0; row < height; row++)
+    {
+        DMA[3].src = &image[x + (y + row) * SCREEN_WIDTH];
+        DMA[3].dst = &videoBuffer[OFFSET(y + row, x, SCREEN_WIDTH)];
+        DMA[3].cnt = width | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT | DMA_ON;
+    }
+}
 
 void drawImageDMA(int x, int y, int width, int height, const u16 *image) {
   // TODO: IMPLEMENT
@@ -70,36 +79,51 @@ void fillScreenDMA(volatile u16 color) {
   DMA[3].cnt = SCREEN_HEIGHT * SCREEN_WIDTH | DMA_SOURCE_FIXED | DMA_ON;
 }
 
-void drawChar(int row, int col, char ch, u16 color) {
-  for (int i = 0; i < 6; i++) {
-    for (int j = 0; j < 8; j++) {
-      if (fontdata_6x8[OFFSET(j, i, 6) + ch * 48]) {
-        setPixel(row + j, col + i, color);
-      }
+void drawChar(int col, int row, char ch, u16 color)
+{
+    for (int r = 0; r < 8; r++)
+    {
+        for (int c = 0; c < 6; c++)
+        {
+            if (fontdata_6x8[OFFSET(r, c, 6) + ch * 48])
+            {
+                setPixel(col + c, row + r, color);
+            }
+        }
     }
-  }
 }
 
-void drawString(int row, int col, char *str, u16 color) {
-  while (*str) {
-    drawChar(row, col, *str++, color);
-    col += 6;
-  }
+void drawString(int col, int row, char *str, u16 color)
+{
+    while (*str)
+    {
+        drawChar(col, row, *str++, color);
+        col += 6;
+    }
 }
 
-void drawCenteredString(int row, int col, int width, int height, char *str,
-                        u16 color) {
-  u32 len = 0;
-  char *strCpy = str;
-  while (*strCpy) {
-    len++;
-    strCpy++;
-  }
+void drawCenteredString(int x, int y, int width, int height, char *str, u16 color)
+{
+    u32 len = 0;
+    char *strCpy = str;
+    while (*strCpy)
+    {
+        len++;
+        strCpy++;
+    }
 
-  u32 strWidth = 6 * len;
-  u32 strHeight = 8;
+    u32 strWidth = 6 * len;
+    u32 strHeight = 8;
 
-  int new_row = row + ((height - strHeight) >> 1);
-  int new_col = col + ((width - strWidth) >> 1);
-  drawString(new_row, new_col, str, color);
+    int col = x + ((width - strWidth) >> 1);
+    int row = y + ((height - strHeight) >> 1);
+    drawString(col, row, str, color);
+}
+
+void delay(int n) {
+    volatile int size = 0;
+    for(int i=0; i<n*4000; i++)
+    {
+        size = size + 1;
+    }
 }

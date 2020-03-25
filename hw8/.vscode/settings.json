@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "pusheen.h": "c",
+        "background.h": "c",
+        "mc.h": "c",
+        "locale": "c",
+        "string": "c",
+        "cookie.h": "c",
+        "logic.h": "c"
+    }
+}
