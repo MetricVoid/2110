@@ -1,5 +1,6 @@
 #include "logic.h"
 #include "gba.h"
+#include "game.h"
 #include "images/pusheen.h"
 #include "images/background.h"
 #include "images/start.h"
@@ -26,6 +27,8 @@ void initialize(void) {
 	int initcol = 5;
 	int width = 20;
 	int height = 20;
+    player.width = 30;
+    player.height = 40;
 	//5 bricks per row, 3 rows, 15 bricks
 	int count = 0;
 	for (int i = 0; i < 6; i++) {
@@ -67,16 +70,16 @@ void foodGen(void) {
 	int count = 0;
 	for (int i = 0; i < 6; i++) {
         int num = rand() % 5;
+        int start = rand() % 3;
         int color = rand() % numFood;
-        // int vis = rand() % 2;
-		for (int j = 0; j < num + 1; j++) {
+        int vis = rand() % 2;
+		for (int j = start; j < num + start; j++) {
 			food[count].row = initrow + (width*i*2);
 			food[count].col = initcol + (height*j);
-			food[count].exists = 1;
+			food[count].exists = vis;
 			food[count].width = 20;
 			food[count].height = 20;
             food[count].image = foods[color];
-            food[count].exists = 1;
 			count++;
 		}
 	}
@@ -94,23 +97,26 @@ void movePlayer(u32 currentButtons, u32 previousButtons) {
     if (KEY_JUST_PRESSED(BUTTON_RIGHT, currentButtons, previousButtons)) {
         // press up
         waitForVBlank();
-        if (player.col + 10 < 225) {
-            drawRectDMA(0, 110, 240, 60 ,BLACK);
+        if (player.col + 10 < 210) {
+            // drawRectDMA(0, 110, 240, 60 ,BLACK);
+            drawRectDMA(player.col, player.row, 30, 30 ,BLACK);
             player.col += 10;
             drawImageDMA(player.col ,player.row,30,30,pusheen);
         }
         // if (player.row + player )
     } else if (KEY_JUST_PRESSED(BUTTON_LEFT, currentButtons, previousButtons)) {
         waitForVBlank();
-        if (player.col - 10 > 15) {
-            drawRectDMA(0, 110, 240, 60 ,BLACK);
+        if (player.col - 10 > 0) {
+            // drawRectDMA(0, 110, 240, 60 ,BLACK);
+            drawRectDMA(player.col, player.row, 30, 30 ,BLACK);
             player.col -= 10;
             drawImageDMA(player.col ,player.row,30,30,pusheen);
         }
     } else if (KEY_JUST_PRESSED(BUTTON_UP, currentButtons, previousButtons)) {
         waitForVBlank();
-        if (player.row - 10 > 100) {
-            drawRectDMA(0, 110, 240, 60 ,BLACK);
+        if (player.row - 10 > 115) {
+            // drawRectDMA(0, 110, 240, 60 ,BLACK);
+            drawRectDMA(player.col, player.row, 30, 30 ,BLACK);
             player.row -= 10;
             drawImageDMA(player.col ,player.row,30,30,pusheen);
         }
@@ -118,7 +124,7 @@ void movePlayer(u32 currentButtons, u32 previousButtons) {
         waitForVBlank();
         // drawRectDMA(0,130,240,120 ,BLACK);
         if (player.row + 10 < 160) {
-            drawRectDMA(0, 110, 240, 60 ,BLACK);
+            drawRectDMA(player.col, player.row, 30, 30 ,BLACK);
             player.row += 10;
             drawImageDMA(player.col ,player.row,30,30,pusheen);
         }
@@ -128,11 +134,20 @@ void movePlayer(u32 currentButtons, u32 previousButtons) {
 }
 
 void moveFood(void) {
-    drawRectDMA(0,0,240,120,BLACK);
+    drawRectDMA(0,0,240,player.row,BLACK);
+    // int i = player.col;
+    if(player.col != 0){
+        // drawRectDMA(0,120, player.col ,40,BLACK);
+    }
+    drawRectDMA(player.col + 30,120, 210,40,BLACK);
+    drawRectDMA(0,player.row + 30,240,40,BLACK);
+    drawRectDMA(0,120,240, 60 - player.row,BLACK);
+    // drawImageDMA(player.col ,player.row,30,30,pusheen);
     // int renew = 0;
 	for (int i = 0; i < 30; i++) {
-        if (food[i].exists) {
-            if (food[i].col + 1 < 100) {
+        int flag = eat(food[i], player);
+        if (food[i].exists && flag) {
+            if (food[i].col + 1 < 140) {
                 food[i].col +=1;
                 drawImageDMA(food[i].row, food[i].col, food[i].width, food[i].height, food[i].image);
             }
@@ -142,35 +157,34 @@ void moveFood(void) {
         // }
     }
     screen += 1;
-    if (screen > 100) {
+    if (screen > 160) {
         foodGen();
         screen = 0;
     }
-    
-	
+}
 
-	// int brickCollision = brickCollide();
-	// if(ball.row > 159) {
-	// 	showEndScreen();
-	// } else if(brickCollision != 0) {
-	// 	ball.row = brickCollision;
-	// 	ball.rowdel = -ball.rowdel;
-	// } else if (ball.row <= 0) {
-	// 	ball.row = 0;
-	// 	ball.rowdel = -ball.rowdel;
-	// } else if((ball.row >= (paddle.row - SMILEYFACE_HEIGHT)) && ((ball.col + (int)(SMILEYFACE_WIDTH / 2) - 1) > paddle.col) && ((ball.col  + (int)(SMILEYFACE_WIDTH / 2)) <= (paddle.col + paddle.width))) {
-	// 	ball.row = paddle.row - SMILEYFACE_HEIGHT;
-	// 	ball.rowdel = -ball.rowdel;
-	// }
-	// if(ball.col < 0) {
-	// 	ball.col = 0;
-	// 	ball.coldel = -ball.coldel;
-	// }
-	// if(ball.col > 239 - SMILEYFACE_WIDTH + 1) {
-	// 	ball.col = 239 - SMILEYFACE_WIDTH + 1;
-	// 	ball.coldel = -ball.coldel;
-	// }
+int eat(Food food, Player player) {
+// x: row y: col  width:
 
-	// drawRectangle(ball.oldrow, ball.oldcol, SMILEYFACE_WIDTH, SMILEYFACE_HEIGHT, BLACK);
-	// drawImage3(ball.row, ball.col, SMILEYFACE_WIDTH, SMILEYFACE_HEIGHT, smileyFace);
+// (food.row < player.col + player.width &&
+//    food.row + food.width > player.col &&
+//    food.col < player.row + player.height &&
+//    food.col + food.height > player.row)
+
+    // food.row = rect1.x
+    // food.col = rect1.y
+    // player.col = rect2.x
+    // player.row = rect2.y
+
+    // drawRectDMA(food.row,food.col, 20,20,BLUE);
+    // drawRectDMA(player.col,player.row, 30,30,BLUE);
+    if (food.row < player.col + player.width &&
+   food.row + food.width > player.col &&
+   food.col < player.row + player.height &&
+   food.col + food.height > player.row) {
+        return 0;
+        score += 10;
+    }
+    return 1;
+    score -= 1;
 }

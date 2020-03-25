@@ -15,9 +15,12 @@ typedef struct brick{
 typedef struct {
 	int col;
 	int row;
+	int height;
+	int width;
 } Player;
 
 void initialize(void);
 void movePlayer(u32 currentButtons, u32 previousButtons);
 void foodGen(void);
 void moveFood(void);
+int eat(Food food, Player player);
