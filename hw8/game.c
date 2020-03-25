@@ -1,11 +1,12 @@
 #include "game.h"
-#include "images/candystart.h"
 #include "images/pusheen.h"
 #include "images/background.h"
 #include "images/start.h"
 #include "images/cake.h"
 #include "images/donut.h"
 #include "images/cookie.h"
+#include "images/death.h"
+#include "images/success.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,6 +50,10 @@ int main(void) {
 
   while (1) {
     currentButtons = BUTTONS;  // Load the current state of the buttons
+    if (KEY_JUST_PRESSED(BUTTON_A, currentButtons, previousButtons)) {
+        state = START;
+        initialize();
+    }
 
     /* TODO: */
     // Manipulate the state machine below as needed //
@@ -95,7 +100,7 @@ int main(void) {
           break;
       case INI:
         waitForVBlank();
-        drawRectDMA(0, 110, 240, 60 ,BLACK);
+        drawRectDMA(0,0,240,240,BLACK);
         if (KEY_JUST_PRESSED(BUTTON_START, currentButtons, previousButtons))
         {
           drawRectDMA(0,0,240,240,BLACK);
@@ -107,15 +112,23 @@ int main(void) {
       case PLAY:
         waitForVBlank();
         movePlayer(currentButtons,previousButtons);
+        display();
         // moveFood();
         // state = ?
+        if (getScore() < 0) {
+          state = LOSE;
+        } else if (getScore() > 100) {
+          state = WIN;
+        }
         break;
       case WIN:
-
+        waitForVBlank();
+        drawFullScreenImageDMA(success);
         // state = ?
         break;
       case LOSE:
-
+        waitForVBlank();
+        drawFullScreenImageDMA(death);
         // state = ?
         break;
     }

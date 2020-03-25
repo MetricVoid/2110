@@ -10,6 +10,7 @@ typedef struct brick{
     int oldcol;
 	const u16 *image;
 	int exists;
+	int eaten;
 } Food;
 
 typedef struct {
@@ -23,4 +24,6 @@ void initialize(void);
 void movePlayer(u32 currentButtons, u32 previousButtons);
 void foodGen(void);
 void moveFood(void);
+void display(void);
 int eat(Food food, Player player);
+int getScore(void);

@@ -15,7 +15,7 @@ PROGNAME = Games1
 # that will be compiled into your program. For example
 # if you have main.c and myLib.c then in the following
 # line you would put main.o and myLib.o
-OFILES = gba.o font.o game.o logic.o images/start.o images/candystart.o images/background.o images/pusheen.o images/cake.o images/cookie.o images/donut.o
+OFILES = gba.o font.o game.o logic.o images/start.o images/death.o images/success.o images/candystart.o images/background.o images/pusheen.o images/cake.o images/cookie.o images/donut.o
 
 ################################################################################
 # These are various settings used to make the GBA toolchain work

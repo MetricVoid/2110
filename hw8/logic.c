@@ -1,4 +1,5 @@
 #include "logic.h"
+#include "stdio.h"
 #include "gba.h"
 #include "game.h"
 #include "images/pusheen.h"
@@ -10,8 +11,7 @@
 
 Food food[30];
 Player player;
-int score = 0;
-int life = 3;
+int score;
 int screen = 0;
 
 void initialize(void) {
@@ -19,6 +19,8 @@ void initialize(void) {
     for (int i = 0; i < 30; i++) {
         food[i].exists = 0;
     }
+    score = 0;
+    screen = 0;
 	// foodGen();
     const u16 *foods[] = {cake, cookie, donut};
 	int numFood = 3;
@@ -80,6 +82,7 @@ void foodGen(void) {
 			food[count].width = 20;
 			food[count].height = 20;
             food[count].image = foods[color];
+            food[count].eaten = 0;
 			count++;
 		}
 	}
@@ -133,11 +136,26 @@ void movePlayer(u32 currentButtons, u32 previousButtons) {
     moveFood();
 }
 
+int getScore(void) {
+    return score;
+}
+
+void display(void) {
+    drawRectDMA(0,0,240,10,BLACK);
+    char buf[12];
+
+    for (int i = 0; i < 12; i++) {
+        snprintf(buf, 12, "Score:_%d", score); // puts string into buffer
+        // printf("%s\n", buf); // outputs so you can see it
+    }
+    drawCenteredString(0, 0, SCREEN_WIDTH, 10, buf, WHITE);
+}
+
 void moveFood(void) {
-    drawRectDMA(0,0,240,player.row,BLACK);
+    drawRectDMA(0,10,240,player.row - 10,BLACK);
     // int i = player.col;
     if(player.col != 0){
-        // drawRectDMA(0,120, player.col ,40,BLACK);
+        drawRectDMA(0,120, player.col ,40,BLACK);
     }
     drawRectDMA(player.col + 30,120, 210,40,BLACK);
     drawRectDMA(0,player.row + 30,240,40,BLACK);
@@ -146,6 +164,9 @@ void moveFood(void) {
     // int renew = 0;
 	for (int i = 0; i < 30; i++) {
         int flag = eat(food[i], player);
+        if (!flag) {
+            food[i].eaten = 1;
+        }
         if (food[i].exists && flag) {
             if (food[i].col + 1 < 140) {
                 food[i].col +=1;
@@ -158,6 +179,13 @@ void moveFood(void) {
     }
     screen += 1;
     if (screen > 160) {
+        for (int i = 0; i<30 ; i++) {
+            if (food[i].eaten) {
+                score += 10;
+            } else {
+                score --;
+            }
+        }
         foodGen();
         screen = 0;
     }
@@ -182,9 +210,7 @@ int eat(Food food, Player player) {
    food.row + food.width > player.col &&
    food.col < player.row + player.height &&
    food.col + food.height > player.row) {
-        return 0;
-        score += 10;
+       return 0;
     }
     return 1;
-    score -= 1;
 }
