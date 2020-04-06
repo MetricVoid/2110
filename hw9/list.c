@@ -280,34 +280,23 @@ int get(LinkedList *list, int index, char **dataOut)
   */
 int contains(LinkedList *list, char *data, char **dataOut)
 {
-    UNUSED_PARAMETER(list);
-    UNUSED_PARAMETER(data);
-    UNUSED_PARAMETER(dataOut);
     if (dataOut ==NULL || list == NULL) {
-      dataOut =NULL;
       return 0;
     }
-    if (list -> head == NULL){
-      dataOut =NULL;
-      return 0;
-    }
+    *dataOut = NULL;
     Node *cur = list -> head;
-    int flag = 1;
-    while (cur -> next && flag == 1) {
+    while (cur && cur -> next) {
       cur = cur -> next;
-      printf("flag, toCompare: %c\n", *(cur -> data));
-      if (strcmp(cur -> data, (char *) data) == 0) {
-        flag = 0;
-        printf("data is %c, this is same: %c\n", *data, *(cur -> data));
+      // printf("flag, toCompare: %c\n", *(cur -> data));
+      if (strcmp(cur -> data, data) == 0) {
+        // printf("data is %c, this is same: %c\n", *data, *(cur -> data));
         *dataOut = cur -> data;
         return 1;
-      } else {
-        printf("data is %c, this is different: %c\n", *data, *(cur -> data));
       }
     }
-    printf("Not found!\n");
-    dataOut=NULL;
-    return 1;
+    // printf("Not found!\n");
+
+    return 0;
 }
 
 /** pop_front
@@ -321,8 +310,6 @@ int contains(LinkedList *list, char *data, char **dataOut)
   */
 int pop_front(LinkedList *list, char **dataOut)
 {
-    UNUSED_PARAMETER(list);
-    UNUSED_PARAMETER(dataOut);
     if (list == NULL) {
       return 1;
     }
@@ -355,6 +342,23 @@ int pop_back(LinkedList *list, char **dataOut)
 {
     UNUSED_PARAMETER(list);
     UNUSED_PARAMETER(dataOut);
+    if (list == NULL || dataOut ==NULL || list -> head == NULL){
+      return 1;
+    }
+    Node *cur = list -> head;
+    if (cur -> next == NULL) {
+      list -> head = NULL;
+      *dataOut = cur -> data;
+      free(cur);
+    } else {
+      while ((cur -> next) -> next != NULL) {
+        cur = cur -> next;
+      }
+      *dataOut = cur->next->data;
+      free(cur-> next);
+      cur -> next = NULL;
+    }
+    list -> size--;
     return 0;
 }
 
@@ -373,9 +377,37 @@ int pop_back(LinkedList *list, char **dataOut)
   */
 int remove_at_index(LinkedList * list, char **dataOut, int index) 
 {
-    UNUSED_PARAMETER(list);
-    UNUSED_PARAMETER(index);
-    UNUSED_PARAMETER(dataOut);
+    if (dataOut ==NULL || list == NULL) {
+      return 1;
+    }
+    if (index > list -> size - 1 || index < 0){
+      return 1;
+    }
+    Node *cur = list -> head;
+    if (cur -> next !=NULL) {
+      if (index == 0) {
+        Node *removed = cur;
+        list -> head = cur -> next;
+        free(removed);
+        list -> size--;
+      }
+      int count = 0;
+      while (count < index - 1) {
+        cur = cur -> next;
+        count ++;
+      }
+      Node *removed = cur -> next;
+      cur -> next = cur -> next -> next;
+      *dataOut = removed -> data;
+      free(removed);
+      list -> size--;
+    } else {
+      Node *removed = cur;
+      list -> head = NULL;
+      *dataOut = removed -> data;
+      free(removed);
+      list -> size--;
+    }
     return 0;
 }
 
@@ -416,6 +448,30 @@ int merge_nodes(LinkedList *list, int index)
 {
     UNUSED_PARAMETER(list);
     UNUSED_PARAMETER(index);
+    if (list == NULL) {
+      return 1;
+    }
+    if (index > list -> size - 2 || index < 0){
+      return 1;
+    }
+    Node *cur = list -> head;
+    if (cur -> next != NULL)
+    {
+      int count = 0;
+      while (count < index) {
+        cur = cur -> next;
+        count++;
+      }
+      strcat((cur -> data), (cur -> next -> data));
+      cur = cur -> next;
+      while (cur -> next != NULL) {
+        cur -> data = cur -> next -> data;
+        cur = cur -> next;
+      }
+      free(cur-> next);
+      cur -> next = NULL;
+    }
+    list -> size--;
     return 0;
 }
 
