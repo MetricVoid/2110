@@ -287,21 +287,27 @@ int contains(LinkedList *list, char *data, char **dataOut)
       dataOut =NULL;
       return 0;
     }
+    if (list -> head == NULL){
+      dataOut =NULL;
+      return 0;
+    }
     Node *cur = list -> head;
     int flag = 1;
     while (cur -> next && flag == 1) {
       cur = cur -> next;
-      char toCompare = *(cur -> data);
-      printf("flag, toCompare: %c\n", toCompare);
-      if (toCompare == *data) {
+      printf("flag, toCompare: %c\n", *(cur -> data));
+      if (strcmp(cur -> data, (char *) data) == 0) {
         flag = 0;
-        printf("data is %c, this is same: %c\n", *data, toCompare);
+        printf("data is %c, this is same: %c\n", *data, *(cur -> data));
+        *dataOut = cur -> data;
         return 1;
       } else {
-        printf("data is %c, this is different: %c\n", *data, toCompare);
+        printf("data is %c, this is different: %c\n", *data, *(cur -> data));
       }
     }
-    return 0;
+    printf("Not found!\n");
+    dataOut=NULL;
+    return 1;
 }
 
 /** pop_front
@@ -317,7 +323,23 @@ int pop_front(LinkedList *list, char **dataOut)
 {
     UNUSED_PARAMETER(list);
     UNUSED_PARAMETER(dataOut);
-    return 0;
+    if (list == NULL) {
+      return 1;
+    }
+    Node *front = list -> head;
+    if (front != NULL) {
+      Node *head = list -> head;
+      Node *next = front -> next;
+      list -> head = next;
+      free(front);
+      list -> size--; 
+      *dataOut = head -> data;
+      if (!list -> size) {
+        list -> head = NULL;
+      }
+      return 0;
+    }
+    return 1;
 }
 
 /** pop_back
@@ -370,7 +392,8 @@ int remove_at_index(LinkedList * list, char **dataOut, int index)
   */
 void empty_list(LinkedList *list)
 {
-    UNUSED_PARAMETER(list);
+    list-> head = NULL;
+    list -> size = 0;
 }
 
 
