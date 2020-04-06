@@ -27,7 +27,7 @@ typedef unsigned char u8;
 #define RED COLOR(31,0,0)
 #define GREEN COLOR(0,31,0)
 #define BLUE COLOR(0,0,31)
-#define MAGENTA COLOR(31, 0, 31)
+#define MAGENTA COLOR(16, 0, 31)
 #define CYAN COLOR(0, 31, 31)
 #define YELLOW COLOR(31, 31, 0)
 #define BLACK 0
@@ -61,7 +61,7 @@ extern volatile unsigned short *videoBuffer;
 // Remember that a button is recently pressed if it wasn't pressed in the last
 // input (oldButtons) but is pressed in the current input. Use the KEY_DOWN
 // macro to check if the button was pressed in the inputs.
-#define KEY_JUST_PRESSED(key, buttons, oldbuttons) (((KEY_DOWN(key, buttons)) & (key)) & ~((KEY_DOWN(key, oldButtons)) & (key)))
+#define KEY_JUST_PRESSED(key, buttons, oldButtons) (((KEY_DOWN(key, buttons)) & (key)) & ~((KEY_DOWN(key, oldButtons)) & (key)))
 
 // ---------------------------------------------------------------------------
 //                       DMA
@@ -137,11 +137,13 @@ int randint(int min, int max);
 void setPixel(int row, int col, u16 color);
 void drawRectDMA(int row, int col, int width, int height, volatile u16 color);
 void drawFullScreenImageDMA(const u16 *image);
+void drawFullScreenImagePortionDMA(int x, int y, int width, int height, const u16 *image);
 void drawImageDMA(int row, int col, int width, int height, const u16 *image);
 void fillScreenDMA(volatile u16 color);
 void drawChar(int row, int col, char ch, u16 color);
 void drawString(int row, int col, char *str, u16 color);
 void drawCenteredString(int row, int col, int width, int height, char *str, u16 color);
+void delay(int n);
 
 /** Contains the pixels of each character from a 6x8 font */
 // This is in the font.c file. You can replace the font if you want.
