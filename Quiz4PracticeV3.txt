@@ -1,0 +1,113 @@
+Macros
+1) You are the infamous Bill Bearhy and you recently decided to get into fundraising. A common fundraiser you notice on campus is the Krispy Kreme donut sales. In order to keep track of the number of donuts you buy each day, you write a little C program to caluculate that total number. Create a Macro that takes in two arguements - the number of boxes of donuts and the number of donuts per box - and returns the total number of donuts that you have. (Make sure that you make your macro properly!)
+
+C Keywords
+1) Explain the different contexts of the static, extern, and volatile keywords. Where are variables of these keywords stored and what do they mean in a program?
+
+Pointers
+1) Assume int a = 5, int b = 3, int *pa = &a, int *pb = &b
+What happens to these variables throughout the course of this baby program?
+*pa = *pa + 2;
+*pb = *pa;
+pb = pa;
+pa = &b;
+*pa = *pa - 5;
+
+Pointer Arithmetic/Types
+Given the following struct:
+struct Bear {
+	int arms;
+	char name[5];
+}
+1) What is the most accurate size of this struct (Assume no padding)?
+2) Write the body of the following function. This function takes in an array of bears and changes the bear at index i to be equal to the passed in newBear. On return, this function returns a pointer to the modified bear (The bear at index i).
+
+struct Bear* bearManipulation(struct Bear *array, struct Bear* newBear, int index)
+
+
+- Be able to read, and write C code
+	- If you've made it this far into the C Homeworks and Quizzes, you should know how to do some basic coding in C!
+	- Just make sure to review the new concepts and syntax like DMA, advanced pointers, and function pointers.
+
+- C Data Types
+	- Pointers, double pointers, arrays etc
+
+	- Write in english what the following data types are:
+		- i.e. int *ptr  ===> pointer to int. Use this verbage if we test you on it!
+		- int **ptr 		 
+		- char *(*ptr)[]	 
+		- char **ptr[]		 
+		- int *(*func1)(int) 
+
+	- https://cdecl.org/ is a good resource to practice more with!
+
+
+- Pass-by-reference and pass-by-value function parameters
+	- For example, change the value of a variable from a calling function
+
+	- As an exercise, create a function, called "add_op", that takes in two parameters, an int pointer (var1) and an int (var2). This function "add_op" adds the int (var2) to the dereferenced int pointer (var1) so that when the function is over, the variable that was passed into "add_op" as a int pointer, var1, will be incremented by the amount stored in var2.
+
+	- Now create a function pointer for this function such that it can be passed to a different function called "operate" that takes in an int pointer, int, and function pointer and uses that function pointer to operate on the int pointer and int (Don't forget to write the actual function for operate as well as the function pointer for add_op itself).
+	In the end you should have two complete functions which implements the 4th line of code where you call "operate" that takes in answer, num and add_op to add the value 2110 to answer.
+
+	Consider the following code as a template:
+
+	The output for running main() would be:
+		120, 20
+		250, 50
+
+	## Header File ##
+	//Write Prototypes for both functions
+
+	//Write add_op_func_ptr - the function pointer for add_op
+
+
+	## C File ##
+	int main() {
+	    int var1 = 100;
+		int var2 = 20;
+		add_op(&var1, var2);
+
+		printf("%d, %d\n", var1, var2);
+
+		int var3 = 200;
+		int var4 = 50;
+		void (*fun_ptr)(int *, int) = add_op;
+		operate(fun_ptr, &var3, var4);
+
+		printf("%d, %d\n", var3, var4);
+
+	    return 0;
+	}
+
+	//Writing add_op below
+
+
+	//Writing operate below
+
+
+
+- Pointer Management. Some examples may include:
+	- Given the size of the basic types and information on filler space, using a base pointer value and its type, be able to calculate the memory address occupied by an array element or struct member
+
+- Arrays in C, including Multi Dimensional Arrays
+	- Which is more space efficient - a 2 dimensional array (int array[10][10]) or an array of int pointers where each element of the array points to an int array (int *array[10], array[0] = int sub_array[10])? Why?
+
+	- Given the declaration int array[10][10], using pointer arithematic and the address &array[0][0], how do you retrieve the value of the element at array[5][3]?
+
+	- Given the declaration int array[10][10][10], using pointer arithematic and the address &array[0][0][0], how do you retrieve the value of the element at array[5][3][1]?
+
+	- Given the following code, what does the print statement output?
+		int foo[2][2][3] = {
+	        { {1,2,3}, {4,5,6} },
+	        { {7,8,9}, {10,11,12} }
+	    };
+
+	    printf("%d", foo[0][1][2]);
+
+- GBA Concepts
+	- DMA
+		- Look at the GBA homework and the puppy lab to get familiar with using DMA
+		- How do I draw a solid rectangle on the screen given starting coordinates, width, height, and color?
+ 	- Vblank
+ 		- What is Vblank used for? Why is it necessary?

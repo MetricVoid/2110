@@ -1,12 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
+#define TRUE 1
+#define FALSE 0
 
 #include "gba.h"
 
                     /* TODO: */
 
             // Create any necessary structs //
-
 
 /*
 * For example, for a Snake game, one could be:

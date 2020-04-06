@@ -14,7 +14,6 @@
 // Add any additional states you need for your app.
 typedef enum {
   START,
-  START_WAIT_FOR_INPUT,
   PLAY,
   WIN,
   LOSE,

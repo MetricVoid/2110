@@ -1,0 +1,80 @@
+Package: containerd.io
+Architecture: amd64
+Version: 1.2.11-1
+Priority: optional
+Section: devel
+Maintainer: Containerd team <help@containerd.io>
+Installed-Size: 89085
+Provides: containerd, runc
+Depends: libc6 (>= 2.14), libseccomp2 (>= 2.4.0)
+Conflicts: containerd, runc
+Replaces: containerd, runc
+Filename: dists/eoan/pool/nightly/amd64/containerd.io_1.2.11-1_amd64.deb
+Size: 20035014
+MD5sum: 5f8e24d44fe819ca913acb178cedd7c9
+SHA1: dd2edf2f052ce4f4b46f368ebb0d69cf497f1167
+SHA256: f01487c531573c08a88b0ee1bca2e7b7a1deba247baf2c3d02fd47209b5180c3
+SHA512: 3feaadad342e057ca737d30306bb92cbbc6c35a07f335cf0c56b0e411e9ee2b1c8a5d4700c6e1439179d55292c18e4ceab5def51aa911620ad2c5d384a965efa
+Homepage: https://containerd.io
+Description: An open and reliable container runtime
+
+Package: containerd.io
+Architecture: amd64
+Version: 1.2.11-2
+Priority: optional
+Section: devel
+Maintainer: Containerd team <help@containerd.io>
+Installed-Size: 89085
+Provides: containerd, runc
+Depends: libc6 (>= 2.14), libseccomp2 (>= 2.4.0)
+Conflicts: containerd, runc
+Replaces: containerd, runc
+Filename: dists/eoan/pool/nightly/amd64/containerd.io_1.2.11-2_amd64.deb
+Size: 20032506
+MD5sum: 803029766fe96ca603210443fd6df891
+SHA1: c410d33511b40f5095ecb33c86e52041ecf6d568
+SHA256: 88dcfbb5ba62bdc33a0e9d02d6e4cf7de072aed4c5587594f81bc29303a18a1f
+SHA512: 124d118dd1d43a5bf24ca14bd01ab58d1366d0b875a7b7a1da53433b47ae39f4c94c028ffef69ee4fda24c5d752f1487e1761d4edaa77f54218545f664e99955
+Homepage: https://containerd.io
+Description: An open and reliable container runtime
+
+Package: containerd.io
+Architecture: amd64
+Version: 1.2.12-1
+Priority: optional
+Section: devel
+Maintainer: Containerd team <help@containerd.io>
+Installed-Size: 89369
+Provides: containerd, runc
+Depends: libc6 (>= 2.14), libseccomp2 (>= 2.4.0)
+Conflicts: containerd, runc
+Replaces: containerd, runc
+Filename: dists/eoan/pool/nightly/amd64/containerd.io_1.2.12-1_amd64.deb
+Size: 20113238
+MD5sum: 761706827ea7b64197555e8da80444ec
+SHA1: 87914388c429b515ef84d97efb3dfdc4565f227e
+SHA256: 6773f34e5f633b59edeeec39072adce727c6bb195cc87ebdf783ee84ef29ac6c
+SHA512: 6df75ba27a40e05c2ba2e0d6110928e45f098299d599a2c905fb1e38d0377b716c9e2a045e9ea9445fdb9736eec5bb150eecb0e86916592d5aff4473eafc8901
+Homepage: https://containerd.io
+Description: An open and reliable container runtime
+
+Package: containerd.io
+Architecture: amd64
+Version: 1.2.13-1
+Priority: optional
+Section: devel
+Maintainer: Containerd team <help@containerd.io>
+Installed-Size: 89430
+Provides: containerd, runc
+Depends: libc6 (>= 2.14), libseccomp2 (>= 2.4.0)
+Conflicts: containerd, runc
+Replaces: containerd, runc
+Filename: dists/eoan/pool/nightly/amd64/containerd.io_1.2.13-1_amd64.deb
+Size: 20122210
+MD5sum: a564ecd3f499c32fa0d7679efeb1ac35
+SHA1: 6c6a9e5d83ccd81e40b064b1418700e4027c4797
+SHA256: 4655707011b13bce3ac9c64b73096925bc863f64b8ab1d13aa316bce923181a0
+SHA512: 6d0224e484e515aa1f5409534174a0e8f446b681cdfbd0ec900217021d8f67348b56bb1964c66b300e24d084be3a06dd9df326900a07b3cc0daaf1f2503f6dfe
+Homepage: https://containerd.io
+Description: An open and reliable container runtime
+
