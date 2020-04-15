@@ -170,36 +170,19 @@ int push_back(LinkedList *list, char *data)
 // add_at_index(l1, ((void *)0), 0) == 0
 int add_at_index(LinkedList *list, char *data, int index)
 {
-    UNUSED_PARAMETER(list);
-    UNUSED_PARAMETER(data);
-    UNUSED_PARAMETER(index);
     if (list == NULL){
-      // printf("ERROR\n");
-      // printf("list: %d, data: %d\n", list ==NULL, data ==NULL);
       return 1;
     }
-    if (data == NULL) {
-      list -> head = create_node(NULL);
-      list -> size ++;
-      return 0;
-    }
     if (index > list -> size || index <0) {
-      // printf("index is %d, data is %d\n",index, *data);
-      // printf("INDEX\nERROR\n");
       return 1;
     }
 
-    // printf("index is %d, data is %d\n",index, *data);
-    // print(list);
-    Node *newNode = create_node(data);
     if (index == 0) {
-      // return push_front(list, data);
-      newNode -> next = list -> head;
-      list-> head = newNode;
-      list -> size++;
-    } else if (index == list -> size) {
       return push_front(list, data);
+    } else if (index == list -> size) {
+      return push_back(list, data);
     } else {
+      Node *newNode = create_node(data);
       int count = 0;
       Node *cur = list -> head;
       while (count != index - 1) {
@@ -318,9 +301,9 @@ int pop_front(LinkedList *list, char **dataOut)
       Node *head = list -> head;
       Node *next = front -> next;
       list -> head = next;
+      *dataOut = head -> data;
       free(front);
       list -> size--; 
-      *dataOut = head -> data;
       if (!list -> size) {
         list -> head = NULL;
       }
@@ -383,31 +366,22 @@ int remove_at_index(LinkedList * list, char **dataOut, int index)
     if (index > list -> size - 1 || index < 0){
       return 1;
     }
-    Node *cur = list -> head;
-    if (cur -> next !=NULL) {
-      if (index == 0) {
-        Node *removed = cur;
-        list -> head = cur -> next;
-        free(removed);
-        list -> size--;
-      }
-      int count = 0;
-      while (count < index - 1) {
-        cur = cur -> next;
-        count ++;
-      }
-      Node *removed = cur -> next;
-      cur -> next = cur -> next -> next;
-      *dataOut = removed -> data;
-      free(removed);
-      list -> size--;
-    } else {
-      Node *removed = cur;
-      list -> head = NULL;
-      *dataOut = removed -> data;
-      free(removed);
-      list -> size--;
+    if (index == 0) {
+      return pop_front(list, dataOut);
+    } else if (index == list -> size - 1) {
+      return pop_back(list, dataOut);
     }
+    int count = 1;
+    Node *cur = list -> head;
+    while (cur && cur -> next && count < index) {
+      cur = cur -> next;
+      count ++;
+    }
+    Node *removed = cur -> next;
+    cur -> next = cur -> next -> next;
+    list -> size --;
+    *dataOut = removed -> data;
+    free(removed);
     return 0;
 }
 
@@ -424,8 +398,17 @@ int remove_at_index(LinkedList * list, char **dataOut, int index)
   */
 void empty_list(LinkedList *list)
 {
+  if (list) {
+    Node *cur = list -> head;
+    while (cur) {
+      free(cur -> data);
+      Node *next = cur -> next;
+      free(cur);
+      cur = next;
+    }
     list-> head = NULL;
     list -> size = 0;
+    }
 }
 
 
@@ -446,8 +429,6 @@ void empty_list(LinkedList *list)
   */
 int merge_nodes(LinkedList *list, int index)
 {
-    UNUSED_PARAMETER(list);
-    UNUSED_PARAMETER(index);
     if (list == NULL) {
       return 1;
     }
@@ -455,22 +436,23 @@ int merge_nodes(LinkedList *list, int index)
       return 1;
     }
     Node *cur = list -> head;
-    if (cur -> next != NULL)
-    {
-      int count = 0;
-      while (count < index) {
-        cur = cur -> next;
-        count++;
-      }
-      strcat((cur -> data), (cur -> next -> data));
+    int current = 0;
+    while (cur && cur -> next && current < index) {
       cur = cur -> next;
-      while (cur -> next != NULL) {
-        cur -> data = cur -> next -> data;
-        cur = cur -> next;
-      }
-      free(cur-> next);
-      cur -> next = NULL;
+      current++;
     }
+    size_t len_cur = strlen(cur -> data);
+    size_t len_next = strlen(cur -> next -> data);
+    size_t t_len = len_cur + len_next;
+    char* new_buf = malloc(sizeof(char) * (t_len + 1));
+    strcpy(new_buf, cur -> data);
+    strcat(new_buf, cur -> next -> data);
+    free(cur -> data);
+    free(cur -> next -> data);
+    Node *next = cur -> next;
+    cur -> next = cur -> next -> next;
+    free(next);
+    cur -> data = new_buf;
     list -> size--;
     return 0;
 }
