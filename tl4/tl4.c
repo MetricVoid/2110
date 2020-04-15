@@ -30,7 +30,38 @@
  *         failure (includes any of the parameters being null)
  */
 struct list *deep_copy(struct list *listToCopy) {
-  UNUSED_PARAMETER(listToCopy);
+  if (!listToCopy) {
+    return NULL;
+  }
+  struct list* nl = calloc(1, sizeof(struct list));
+  if (nl) {
+    struct node** ptr_nl_cur = &nl->head;
+    struct node** ptr_cur = &listToCopy->head;
+    while (*ptr_cur) {
+      // Copy a node
+      // Allocate String
+      size_t slen = strlen((*ptr_cur)->data) + 1;
+      char *chr = malloc(sizeof(char) * slen);
+      if (!chr) {
+        destroy(nl);
+        return NULL;
+      }
+      strcpy(chr, (*ptr_cur)->data);
+      // Alloc Node
+      struct node* nn = calloc(1, sizeof(struct node));
+      if (!nn) {
+        free(chr);
+        destroy(nl);
+        return NULL;
+      }
+      nn->id = (*ptr_cur)->id;
+      nn->data = chr;
+      *ptr_nl_cur = nn;
+      ptr_nl_cur = &(*ptr_nl_cur)->next;
+      ptr_cur = &(*ptr_cur)->next;
+    }
+    return nl;
+  }
   return NULL;
 }
 
@@ -43,4 +74,17 @@ struct list *deep_copy(struct list *listToCopy) {
  *
  * @param listToDestroy a pointer to the struct list
  */
-void destroy(struct list *listToDestroy) { UNUSED_PARAMETER(listToDestroy); }
+void destroy(struct list *listToDestroy) {
+  UNUSED_PARAMETER(listToDestroy); 
+  if (listToDestroy) {
+    struct node *cur = listToDestroy -> head;
+    while (cur) {
+      free(cur -> data);
+      struct node *next = cur -> next;
+      free(cur);
+      cur = next;
+    }
+    listToDestroy-> head = NULL;
+  }
+  free(listToDestroy);
+}
